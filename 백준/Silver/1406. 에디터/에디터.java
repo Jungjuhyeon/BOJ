@@ -1,55 +1,65 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
 
-public class Main{
+public class Main {
 
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		Stack stL = new Stack<>();
-		Stack stR = new Stack<>();
+    public static void main(String[] args) throws IOException {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-		String str = br.readLine();
-		for (int i = 0; i < str.length(); i++) {
-			stL.push(str.charAt(i));
-		}
 
-		int n = Integer.parseInt(br.readLine());
+        String str = br.readLine();
 
-		for (int i = 0; i < n; i++) {
-			String com = br.readLine();
-			if (com.equals("L")) {
-				if (!stL.empty()) {
-					stR.push(stL.pop());
-				}
-			} else if (com.equals("D")) {
-				if (!stR.empty()) {
-					stL.push(stR.pop());
+        int N = Integer.parseInt(br.readLine());
 
-				}
-			} else if (com.equals("B")) {
-				if (!stL.empty()) {
-					stL.pop();
-				}
-			} else if (com.contains("P")) {
-				char c = com.charAt(2);
-				stL.push(c);
-			}
+        Stack<Character> stack1 = new Stack<>();
+        Stack<Character> stack2 = new Stack<>();
 
-		}
+        for(int i=0; i<str.length() ; i++) {
+            stack1.push(str.charAt(i));
+        }
 
-		while (!stL.empty()) {
-			stR.push(stL.pop());
-		}
+        for(int i=0; i<N ; i++){
+            String ch = br.readLine();
 
-		while (!stR.empty()) {
-			sb.append(stR.pop());
-		}
+            switch (ch.charAt(0)){
+                case 'L':
+                    if(!stack1.empty()){
+                        stack2.push(stack1.pop());
+                    }
+                    break;
+                case 'D':
+                    if(!stack2.empty()){
+                        stack1.push(stack2.pop());
+                    }
+                    break;
+                case 'B':
+                    if(!stack1.empty()) {
+                        stack1.pop();
+                    }
+                    break;
+                case 'P':
+                    stack1.push(ch.charAt(2));
+                    break;
+                default:
+                    break;
 
-        System.out.print(sb);
-	}
+            }
+        }
 
+        // 왼쪽 스택에 있는 문자열을 모두 오른쪽 스택에 넣는다.
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
+        }
+
+        // 오른쪽 스택의 내용을 모두 출력용 StringBuilder에 담는다.
+        while (!stack2.isEmpty()) {
+            sb.append(stack2.pop());
+        }
+
+        System.out.println(sb);
+    }
 }
