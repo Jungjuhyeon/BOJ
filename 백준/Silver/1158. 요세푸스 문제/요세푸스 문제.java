@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -10,43 +11,37 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String[] ary = br.readLine().split(" ");
-        int count =1;
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
         Queue<Integer> queue = new LinkedList<>();
-        Queue<Integer> queue1 = new LinkedList<>();
-
-        int N = Integer.parseInt(ary[0]);
-        int K = Integer.parseInt(ary[1]);
 
         for(int i=1; i<=N; i++){
-            queue.add(i);
+            queue.offer(i);
         }
+        //1,2,3,4,5..N
 
-        while(!queue.isEmpty()){
+        int count =1; //순서 counting
+
+        sb.append("<");
+
+        while(!(queue.size()==1)){
             if(count ==K){
-                queue1.add(queue.remove());
+                sb.append(queue.poll()).append(", ");
                 count = 1;
             }
             else{
-                queue.add(queue.remove());
+                queue.add(queue.poll());
                 count ++;
             }
         }
-
-        int queue1_size = queue1.size();
-        sb.append('<');
-        for(int i=1;i<=queue1_size;i++) {
-            sb.append(queue1.remove());
-            if (!(i == queue1_size)) {
-                sb.append(", ");
-            }
-        }
-        sb.append('>');
+        sb.append(queue.poll()).append(">");
 
         System.out.println(sb);
 
 
     }
 }
+
