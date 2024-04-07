@@ -4,49 +4,49 @@ import java.io.InputStreamReader;
 import java.util.Stack;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Stack<Double> stack = new Stack<>();
 
-        int N = Integer.parseInt(bf.readLine());
+        int N = Integer.parseInt(br.readLine());
 
-        String input = bf.readLine();
+        String str = br.readLine();
 
-        double[] input_int = new double[N];
-        for(int i=0; i<N; i++){
-            input_int[i] = Integer.parseInt(bf.readLine());
+        int[] arr = new int[N];
+        for(int i=0;i<N;i++){
+            arr[i] = Integer.parseInt(br.readLine());
         }
 
-
-        for(int i=0; i<input.length();i++){
-            if(input.charAt(i)>='A'&& input.charAt(i)<='Z'){
-                stack.push(input_int[input.charAt(i)-'A']);
+        for(int i=0;i<str.length();i++){
+            char ch =str.charAt(i);
+            if('A'<=ch && ch<='Z' ){
+                double d =arr[ch - 'A'];
+                stack.push(d);
             }
             else{
-                double second = stack.pop();
-                double first = stack.pop();
-
-                switch (input.charAt(i)){
-                    case '+':
-                        stack.push(first+second);
-                        break;
-                    case '-':
-                        stack.push(first-second);
-                        break;
-                    case '*':
-                        stack.push(first*second);
-                        break;
-                    case '/':
-                        stack.push(first/second);
-                        break;
+                if(!stack.isEmpty()) {
+                    double d1 = stack.pop();
+                    double d2 = stack.pop();
+                    switch (ch) {
+                        case '+':
+                            stack.push(d1 + d2);
+                            break;
+                        case '-':
+                            stack.push(d2 - d1);
+                            break;
+                        case '*':
+                            stack.push(d1 * d2);
+                            break;
+                        case '/':
+                            stack.push(d2/d1);
+                    }
                 }
-
             }
 
         }
+
         System.out.printf("%.2f", stack.pop());
-
-
     }
 }
