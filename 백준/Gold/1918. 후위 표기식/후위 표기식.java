@@ -4,24 +4,6 @@ import java.io.InputStreamReader;
 import java.util.Stack;
 
 public class Main {
-    public static int priority(char chr) {
-        int num = 0;
-        switch (chr) {
-            case '+':
-            case '-':
-                num = 1;
-                break;
-            case '*':
-            case '/':
-                num = 2;
-                break;
-            case '(':
-            case ')':
-                num = 0;
-                break;
-        }
-        return num;
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -30,38 +12,46 @@ public class Main {
 
         Stack<Character> stack = new Stack<>();
 
-        String input = br.readLine();
+        String str = br.readLine();
 
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) >= 'A' && input.charAt(i) <= 'Z') {
-                sb.append(input.charAt(i));
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            
+            if ('A' <= c && c <= 'Z') {//비연산자일때
+                sb.append(c);
             }
-            else {
-                if (input.charAt(i) == '(') {
-                    stack.push(input.charAt(i));
+            else if (c != '(' && c != ')') { //괄호가 아닐때
+                while (!stack.isEmpty() && priority(stack.peek()) >= priority(c)) {
+                    sb.append(stack.pop());
                 }
-
-                else if (input.charAt(i) == ')') {
-                    while (!stack.isEmpty()) {
-                        if (stack.peek() == '(') {
-                            stack.pop();
-                            break;
-                        }
-                        sb.append(stack.pop());
-                    }
-                }
-                else {
-                    while(!stack.isEmpty()&& priority(stack.peek())>=priority(input.charAt(i))){
-                        sb.append(stack.pop());
-                    }
-                    stack.push(input.charAt(i));
-                }
-
+                stack.push(c);
             }
+            else if( c == '('){ //여는 괄호일때 그냥 삽입
+                stack.push(c);
+            }
+            else{
+                while(stack.peek()!='('){ //닫는 괄호는 여는 괄호가 나올때까지 pop
+                    sb.append(stack.pop());
+                }
+                stack.pop();
+            }
+
         }
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()){
             sb.append(stack.pop());
         }
+
         System.out.println(sb);
+    }
+    public static int priority(Character c){
+        if( c == '+' || c == '-' ){
+            return 1;
+        }
+        else if(c == '*' || c =='/'){
+            return 2;
+        }
+        else{
+            return 0;
+        }
     }
 }
