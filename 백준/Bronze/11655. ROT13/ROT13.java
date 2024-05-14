@@ -3,31 +3,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        String Input = br.readLine();
+        String str = br.readLine();
 
-        for(int i=0; i<Input.length();i++){
-            char input = Input.charAt(i);
-            char input_char;
-            int input_int;
-            if(input>='A'&& input <='M' || input>='a'&& input<='m'){
-                input_int = (int)input+13;
-                input_char = (char)input_int;
-                sb.append(input_char);
+        char[] arg = new char[str.length()];
+
+        for(int i =0; i<str.length(); i++){
+            arg[i] = str.charAt(i);
+        }
+        for(int i =0; i<arg.length; i++){
+            if(arg[i]>='a' && arg[i]<='z'){
+                if(arg[i] + 13 >'z'){
+                    arg[i] = (char)(arg[i]-13);
+                }
+                else{
+                    arg[i] = (char)(arg[i]+13);
+                }
             }
-            else if(input>='N'&& input<='Z' || input>='n'&&input<='z'){
-                input_int = (int)input-13;
-                input_char = (char)input_int;
-                sb.append(input_char);
-            }
-            else{
-                sb.append(input);
+            else if(arg[i] >='A' && arg[i]<='Z') {
+                if (arg[i] + 13 > 'Z') {
+                    arg[i] = (char) (arg[i] - 13);
+                } else {
+                    arg[i] = (char) (arg[i] + 13);
+                }
             }
         }
-        System.out.println(sb);
+        for(int i =0; i<arg.length;i++){
+            System.out.print(arg[i]);
+        }
+
     }
 }
