@@ -4,24 +4,39 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        String input = br.readLine();
-        String[] Input = new String[input.length()];
+        String str = br.readLine();
 
-        for(int i=0;i < input.length();i++){
-            Input[i] = input.substring(i);
+        String[] arg = new String[str.length()];
+
+        for(int i=0; i<str.length();i++){
+            arg[i]= str.substring(i); // subString시 해당 문자열 인덱스부터 가져옴
+        }
+        /*
+        String temp;
+        for(int i =0; i<str.length()-1;i++){
+
+            for(int j =i; j>=0; j--){
+                if(arg[j].charAt(0)>arg[j+1].charAt(0)){
+                    temp = arg[j];
+                    arg[j] = arg[j+1];
+                    arg[j+1] = temp;
+                }
+            }
         }
 
-        Arrays.sort(Input);
+         */
+        Arrays.sort(arg); // 정렬
 
-        for(int i=0;i<Input.length;i++){
-            sb.append(Input[i]).append('\n');
+        for(int i =0;i<str.length();i++) {
+            System.out.println(arg[i]);
         }
 
-        System.out.println(sb);
+
     }
 }
