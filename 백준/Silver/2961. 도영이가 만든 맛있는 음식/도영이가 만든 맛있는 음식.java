@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 public class Main {
@@ -12,12 +11,8 @@ public class Main {
 
         if(cnt ==N){
             if(sin_sum==1&&sun_sum==0) return;
-            int sub = sin_sum-sun_sum;
-            if(sub<0)
-                sub= sub*-1;
-            if(sub<total){
-                total = sub;
-            }
+            int sub = Math.abs(sin_sum-sun_sum);
+            total = Math.min(total,sub);
             return;
         }
 
