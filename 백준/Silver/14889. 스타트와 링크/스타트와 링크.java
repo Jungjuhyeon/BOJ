@@ -43,6 +43,12 @@ public class Main {
             }
         }
         differ = Math.abs(true_sum-false_sum);
+        
+         if(differ ==0){
+            System.out.print(differ);
+            System.exit(0);
+        }
+
 
 
         min = Math.min(min,differ);
