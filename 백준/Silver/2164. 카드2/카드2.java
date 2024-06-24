@@ -14,18 +14,10 @@ public class Main {
             queue.offer(i);
         }
 
-        while(true){
-            if(queue.size()==1){
-                break;
-            }
-            queue.poll();
-            if(queue.size()==1) {
-                break;
-            }
-
-            queue.offer(queue.poll());
-
-        }
+       	while(queue.size() > 1) {
+			queue.poll();	
+			queue.offer(queue.poll());	
+		}
 
         System.out.println(queue.poll());
 
