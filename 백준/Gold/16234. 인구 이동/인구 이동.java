@@ -9,18 +9,19 @@ public class Main {
     static final int[] dj = {0,1,0,-1};
     static ArrayList<int[]> list;
 
+    //인구 이동처리 함수
     static int move(){
-        int result =0;
-        while(true){
+        int result =0; //총 인구 이동 횟수
+        while(true){ 
             boolean isMove = false;
-            v = new boolean[N][N];
+            v = new boolean[N][N]; //방문처리를 위한 v
 
             for(int i=0; i<N; i++){
                 for(int j=0; j<N ; j++){
                     if(!v[i][j]){
                         int sum = bfs(i,j);
                         if(list.size()>1){
-                            changePopulation(sum);
+                            changePeople(sum);
                             isMove = true;
                         }
                     }
@@ -35,12 +36,12 @@ public class Main {
 
     static int bfs(int i,int j){
         ArrayDeque<int[]> q = new ArrayDeque<>();
-        list = new ArrayList<>();
+        list = new ArrayList<>(); //인구 이동이 일어난 지역들의 좌표를 위한
         v[i][j] = true;
         q.offer(new int[]{i,j});
         list.add(new int[]{i,j});
-
-        int sum = ia[i][j];
+ 
+        int sum = ia[i][j]; //총 인구수 변수
         while(!q.isEmpty()){
             int[] ij = q.poll();
             i = ij[0];
@@ -62,7 +63,7 @@ public class Main {
         return sum;
     }
 
-    static void changePopulation(int sum){
+    static void changePeople(int sum){
         int avg = sum/list.size();
 
         for(int[] a :list){
