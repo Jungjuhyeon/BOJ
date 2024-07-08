@@ -1,23 +1,13 @@
-import java.util.*;
-import java.io.*;
-
 class Solution {
     public String solution(String[] participant, String[] completion) {
         
-        Arrays.sort(participant);
-        Arrays.sort(completion);
-
-        String answer = "";
-
-        for(int i=0;i<completion.length;i++){
-            if(!participant[i].equals(completion[i])){
-                answer = participant[i];
-                return answer;
-            
+        for(int i=0;i<participant.length;i++){
+            if(completion.contains(participant[i])){
+                completion.r
             }
         }
-        answer = participant[participant.length - 1];
         
+        String answer = "";
         return answer;
     }
 }
