@@ -2,16 +2,14 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    public boolean solution(String[] phoneBook) {
-        // 1. phoneBook을 sorting한다.
-        Arrays.sort(phoneBook);
-
-        // 2. 1중 Loop을 돌며 앞 번호가 뒷 번호의 접두어인지 확인한다.
-        for (int i = 0; i < phoneBook.length - 1; i++)
-            if (phoneBook[i + 1].startsWith(phoneBook[i]))
-                return false;
+    public boolean solution(String[] phone_book) {
         
-        // 3. 여기까지 오면 접두어가 없다는 것이다.
+        Arrays.sort(phone_book);        
+        for(int i = 0; i < phone_book.length - 1; i++) {
+            if(phone_book[i+1].startsWith(phone_book[i])) {
+                return false;
+            }
+        }
         return true;
     }
 }
