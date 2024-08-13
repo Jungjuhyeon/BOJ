@@ -1,19 +1,27 @@
 class Solution {
     public String solution(String number, int k) {
+        
         StringBuilder sb = new StringBuilder();
-        int index = 0;
-        int max = 0;
-        for(int i=0; i<number.length() - k; i++) {
-            max = 0;
-            for(int j = index; j<= k+i; j++) {
-                if(max < number.charAt(j)-'0') {
+        int max =0;
+        int idx =0;
+        
+        for(int i=0;i<number.length()-k;i++){
+           max =0;
+            for(int j=idx;j<=k+i;j++){
+                if(max<number.charAt(j)-'0'){
                     max = number.charAt(j)-'0';
-                    index = j+1;
+                    idx = j+1;
                 }
             }
             sb.append(max);
         }
+        
         return sb.toString();
+        
+        
     }
 }
-//나보다 큰 놈이 있는지 확인, but 작은게 있다면 작은게 먼저
+
+//ㅈ같은 문제다.
+// 1. number.length()-k 길이만큼 숫자를 뽑아내야한다.
+// 2. 범위내에서 한개를 선택해도 뒤에 숫자와 합쳐서 number.length()-k와 같아져야한다. 이를 잘 봐야한다
