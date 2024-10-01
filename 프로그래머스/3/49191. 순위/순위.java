@@ -17,9 +17,9 @@ class Solution {
         
         // 플로이드 워셜 알고리즘
         // 4 > 3 , 3 > 2 => 4 > 2
-        for(int i = 1; i <= n; i++){
-            for(int j = 1; j <= n; j++){
-                for(int k = 1; k <= n; k++){
+        for(int i = 1; i <= n; i++){ //출발
+            for(int j = 1; j <= n; j++){ //도착
+                for(int k = 1; k <= n; k++){ //경유
                     if(floyd_machal[i][k] == 1 && floyd_machal[k][j] == 1){
                         floyd_machal[i][j] = 1;
                         floyd_machal[j][i] = -1;
