@@ -1,10 +1,7 @@
-
-import java.io.*;
 import java.util.*;
-
+import java.io.*;
 public class Main {
     public static void main(String[] args)throws Exception{
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
@@ -13,29 +10,34 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        int[] a = new int[N];
+        int[] v = new int[N];
 
         st = new StringTokenizer(br.readLine()," ");
 
-        int left = 0;
-        int right = -1;
+        long right = 0;
+        for(int i=0;i<N;i++){
+            v[i]= Integer.parseInt(st.nextToken());
+            right = Math.max(right,v[i]);
+        }
 
-        for(int i=0;i<N;i++) {
-            a[i] = Integer.parseInt(st.nextToken());
-            right = Math.max(right, a[i]);
-        }
-        while(left<=right){
-            int mid = (left+ right)/2;
-            long tree = 0;
-            for(int i=0;i<N;i++){
-                if(a[i]>mid) tree+= a[i]-mid;
+        long left = 0;
+
+        while(left+1<right){
+            long sum =0;
+            long mid = (left+right)/2;
+
+            for (int i = 0; i < N; i++) {
+                if (v[i] > mid) sum += v[i] - mid;
             }
-            if(tree>=M){
-                left = mid+1;
-            }else if(tree<M){
-                right = mid -1;
+
+            if(sum>=M){
+                left =mid;
+            }else{
+                right =mid;
             }
         }
-        System.out.println(right);
+        System.out.println(left);
     }
 }
+
+
