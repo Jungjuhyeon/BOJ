@@ -33,9 +33,6 @@ public class Main {
                 for(int z=0;z<M;z++){
                     a[i][j][z] = Integer.parseInt(st.nextToken());
                     if(a[i][j][z]==1){
-//                        System.out.println(i);
-//                        System.out.println(j);
-//                        System.out.println(z);
                         v[i][j][z] =true;
                         q.offer(new int[]{i,j,z});
                     }
@@ -52,7 +49,7 @@ public class Main {
                         depth = -1;
                     }
                 }
-//                System.out.println(Arrays.toString(a[i][j]));
+
             }
         }
         br.close();
