@@ -1,78 +1,88 @@
+
 import java.io.*;
 import java.util.*;
 
 public class Main {
-    static List<double[]> graph;
+    static List<Node> graph;
     static int[] parent;
-    static double[][] list;
+    static double[][] stars;
 
-    public static void main(String[] args)throws Exception{
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         int N = Integer.parseInt(br.readLine());
 
-        parent = new int[N+1];
+        parent = new int[N + 1];
 
-        for(int i=0;i<=N;i++){
+        for (int i = 0; i <= N; i++) {
             parent[i] = i;
         }
 
         graph = new ArrayList<>();
+        stars = new double[N + 1][2];
 
-        list = new double[N+1][2];
-
-        for(int i=1;i<N+1;i++){
-            st = new StringTokenizer(br.readLine()," ");
-            list[i][0] = Double.parseDouble(st.nextToken());
-            list[i][1] = Double.parseDouble(st.nextToken());
+        for (int i = 1; i < N + 1; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            stars[i][0] = Double.parseDouble(st.nextToken());
+            stars[i][1] = Double.parseDouble(st.nextToken());
         }
 
-        for(int i=1;i<N;i++){
-            for(int j=2;j<=N;j++){
-                double distance = Math.sqrt(Math.pow(list[i][0]-list[j][0],2) + (Math.pow(list[i][1]-list[j][1],2)));
-                graph.add(new double[]{i,j,distance});
+        for (int i = 1; i < N; i++) {
+            for (int j = i + 1; j <= N; j++) {
+                double distance = Math.sqrt(Math.pow(stars[i][0] - stars[j][0], 2) + (Math.pow(stars[i][1] - stars[j][1], 2)));
+                graph.add(new Node(i, j, distance));
             }
         }
-        graph.sort((a,b)-> Double.compare(a[2],b[2]));
+        graph.sort((a, b) -> Double.compare(a.cost, b.cost));
 
         double total = 0;
         int edge = 0;
 
-        for(double[] a: graph){
-            if(union(a[0],a[1])){
-                total += a[2];
+        for (Node i : graph) {
+            if (union(i.start, i.end)){
+                total += i.cost;
                 edge++;
             }
-            if(edge ==N-1){
+            if (edge == N - 1) {
                 break;
             }
         }
 
         br.close();
 
-        System.out.println(total);
+        System.out.printf("%.2f", total);
 
     }
 
-    static int find(int i){
-        if(parent[i]!=i){
-            parent[i] = find(parent[i]);
+    static int find(int node) {
+        if (parent[node] != node) {
+            parent[node] = find(parent[node]);
         }
-        return parent[i];
+        return parent[node];
     }
 
-    static boolean union(double a,double b){
+    static boolean union(int a, int b) {
 
-        int RootA = find((int)a);
-        int RootB = find((int)b);
+        int rootA = find(a);
+        int rootB = find(b);
 
-        if(RootA!=RootB){
-            parent[RootB] = RootA;
+        if (rootA != rootB) {
+            parent[rootB] = rootA;
             return true;
         }
-        else{
-            return false;
+        return false;
+
+    }
+    public static class Node{
+        int start, end;
+
+        double cost;
+        public Node(int start,int end, double cost){
+            this.start = start;
+            this.end = end;
+            this.cost = cost;
         }
     }
 }
+
