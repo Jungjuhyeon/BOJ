@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 
@@ -13,7 +12,7 @@ public class Main {
         st = new StringTokenizer(br.readLine(), " ");
 
         N = Integer.parseInt(st.nextToken()); //전체갯수
-        S = Integer.parseInt(st.nextToken());//합했을댸 구하는 값
+        S = Integer.parseInt(st.nextToken()); //합했을댸 구하는 값
 
         a = new int[N];
 
@@ -25,27 +24,25 @@ public class Main {
 
         sub(0,0);
 
-        if(S==0){
-            if(count>0){
-                count--;
-            }
-        }
-
-
         br.close();
 
-        System.out.println(count);
+        if(S==0){
+            System.out.println(count-1);
+        }else{
+            System.out.println(count);
+
+        }
 
     }
 
-    static void sub(int cnt,int sum){
-        if(cnt == N){
+    static void sub(int depth,int sum){
+        if(depth == N){
             if(sum == S){
                 count++;
             }
             return;
         }
-        sub(cnt+1,sum+a[cnt]);
-        sub(cnt+1,sum);
+        sub(depth+1,sum+a[depth]); //포함했을 경우
+        sub(depth+1,sum); //포함안했을경우
     }
 }
