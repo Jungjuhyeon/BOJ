@@ -1,71 +1,68 @@
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int N;
-    static int M;
-    static boolean[][] v;
-    static int[][] g;
+    static int N,M;
+    static int[][] graph;
+    static int[][] distance;
     static int[] di = {-1,0,1,0};
     static int[] dj = {0,1,0,-1};
-    static int answer = 0;
-
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine()," ");
-
         M = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
 
-        v = new boolean[N][M];
-        g = new int[N][M];
+        graph = new int[N][M];
 
         for(int i=0;i<N;i++){
             String str = br.readLine();
             for(int j=0;j<M;j++){
-                g[i][j] = str.charAt(j) -'0';
+                graph[i][j] = str.charAt(j) - '0';
             }
         }
 
+        distance = new int[N][M];
+
+        for(int i=0;i<N;i++){
+            Arrays.fill(distance[i],Integer.MAX_VALUE);
+        }
         bfs(0,0);
 
-        br.close();
-
-        System.out.println(answer);
-
+        System.out.println(distance[N-1][M-1]);
     }
-    static void bfs(int i,int j){
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->Integer.compare(a[2],b[2]));
-        pq.offer(new int[]{i,j,0});
-        v[i][j] =true;
 
-        while(!pq.isEmpty()){
-            int[] cur = pq.poll();
-            int x = cur[0];
-            int y = cur[1];
-            int cost = cur[2];
-            if(x == N-1 && y ==M-1){
-                answer = cost;
-                break;
+    public static void bfs(int startX,int startY){
+        ArrayDeque<int[]> dq = new ArrayDeque<>();
+        dq.offer(new int[]{startX,startY});
+        distance[startX][startY] =0;
+
+        while(!dq.isEmpty()){
+            int[] ij = dq.poll();
+            int curI = ij[0];
+            int curJ = ij[1];
+
+            if(curI == N-1 && curJ == M-1){
+                return;
             }
-            for(int d=0;d<4;d++){
-                int ci = x + di[d];
-                int cj = y + dj[d];
 
-                if(ci>=0 && cj>=0 && ci<N && cj <M && !v[ci][cj]){
-                    if(g[ci][cj]==1){
-                        v[ci][cj] =true;
-                        pq.offer(new int[]{ci,cj,cost+1});
-                    }else{
-                        v[ci][cj] =true;
-                        pq.offer(new int[]{ci,cj,cost});
+            for(int d=0;d<4;d++){
+                int newI = curI + di[d];
+                int newJ = curJ + dj[d];
+                if(newI>=0 & newJ>=0 && newI<N && newJ<M){
+                    if(graph[newI][newJ] == 1 && distance[newI][newJ]> distance[curI][curJ]+1){
+                        distance[newI][newJ] = distance[curI][curJ]+1;
+                        dq.addLast(new int[]{newI,newJ});
+                    }
+                    if(graph[newI][newJ] == 0 && distance[newI][newJ]> distance[curI][curJ]){
+                        distance[newI][newJ] = distance[curI][curJ];
+                        dq.addFirst(new int[]{newI,newJ});
                     }
                 }
             }
         }
     }
-
 }
