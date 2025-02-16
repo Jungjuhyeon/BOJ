@@ -1,80 +1,67 @@
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-
     static int N,K;
-    static List<List<Node>> graph =new ArrayList<>();
     static int[] distance;
-
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine()," ");
 
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-
-        // 그래프 초기화
-        for (int i = 0; i <= 100000; i++) {
-            graph.add(new ArrayList<>());
-        }
-
         distance = new int[100001];
-        Arrays.fill(distance, Integer.MAX_VALUE);
+        Arrays.fill(distance,Integer.MAX_VALUE);
 
-        // 그래프 구성
-        for (int i = 0; i <= 100000; i++) {
-            if (i + 1 <= 100000) graph.get(i).add(new Node(i + 1, 1)); // 앞으로 한 칸
-            if (i - 1 >= 0) graph.get(i).add(new Node(i - 1, 1));      // 뒤로 한 칸
-            if (2 * i <= 100000) graph.get(i).add(new Node(2 * i, 0)); // 순간이동
-        }
-
-        dijkstra(N);
+        bfs(N);
 
         System.out.println(distance[K]);
 
     }
 
-    static void dijkstra(int index){
-        PriorityQueue<Node> pq = new PriorityQueue<>((a,b)-> Integer.compare(a.cost,b.cost));
-        pq.offer(new Node(index,0));
+    public static void bfs(int start){
+        ArrayDeque<Integer> dq = new ArrayDeque<>();
+        dq.offer(start);
+        distance[start] =0;
 
-        distance[index] =0;
+        while(!dq.isEmpty()){
+            int curIndex = dq.poll();
+            int dist = distance[curIndex];
 
-        while(!pq.isEmpty()){
-            Node curNode = pq.poll();
-            int curIndex = curNode.index;
-            int curCost = curNode.cost;
-
-            if(curCost>distance[curIndex]){
-                continue;
+            if(curIndex == K){
+                return;
             }
-            for(Node neighbor : graph.get(curIndex)){
-                int cost = curCost + neighbor.cost;
 
-                if(cost <distance[neighbor.index]){
-                    distance[neighbor.index] = cost;
-                    pq.offer(new Node(neighbor.index,cost));
-                }
+            //+1할때
+            if(curIndex+1<=100000 && distance[curIndex+1] > dist+1){
+                distance[curIndex+1] = dist+1;
+                dq.addLast(curIndex+1);
             }
-        }
-    }
+            //-1할때
+            if(curIndex-1>=0 && distance[curIndex-1] > dist+1){
+                distance[curIndex-1] = dist+1;
+                dq.addLast(curIndex-1);
+            }
+            if(curIndex*2<=100000 && distance[curIndex*2] > dist){
+                distance[curIndex*2] = dist;
+                dq.addFirst(curIndex*2);
+            }
 
-    static class Node{
-        int index;
-        int cost;
-
-        public Node(int index,int cost){
-            this.index = index;
-            this.cost = cost;
         }
     }
 }
 
 
-
-
-
-
+/**
+ * 처음에 해당 문제는 다익스트라로 풀었음.
+ * 하지만 BFS 0-1 알고리즘으로 풀게된다면 선형연산으로 O(E+V)시간복잡도를 가진다고 해서 이로 풀 예정
+ * 다익스트라로 풀 경우, 우선순위큐로 연산이 필요하므로 O(ElogV)or O(ElogE)
+ * 1. 5 17 이 주어지면 5를 먼저 덱큐에 집어넣는다.
+ * 2. 5의 -1 ,+1는 1초가 걸리므로, 덱큐 뒤로 넣고 dist[] 배열에 1로 초기화한다.
+ * 3. 5의 *2는 0초가 걸리므로, 덱큐 앞으로 넣고 dist[]배열에 0으로 초기화한다.
+ * 4. 이렇게하고 17에 도착했을 경우, 리턴을 시킨다.
+ */
