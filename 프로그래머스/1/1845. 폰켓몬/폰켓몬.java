@@ -4,19 +4,19 @@ import java.io.*;
 class Solution {
     public int solution(int[] nums) {
         int answer = 0;
-        int pickNum = nums.length / 2;
-
-        HashSet<Integer> set = new HashSet<>();
-        for (int n : nums) {
-            set.add(n);
+        int pickNum = nums.length /2;
+        
+        HashSet<Integer> hash = new HashSet<>();
+        
+        for(int i : nums){
+            hash.add(i);
         }
-
-        if (pickNum >= set.size()) {
-            answer = set.size();
-        } else {
+        
+        if(hash.size() >= pickNum){
             answer = pickNum;
+        }else{
+            answer = hash.size();
         }
-
         return answer;
     }
 }
