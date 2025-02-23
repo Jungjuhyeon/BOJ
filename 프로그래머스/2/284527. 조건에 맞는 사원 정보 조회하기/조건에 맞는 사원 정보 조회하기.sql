@@ -1,0 +1,13 @@
+-- 코드를 작성해주세요
+SELECT SUM(SCORE) as SCORE,
+        he.EMP_NO,
+        he.EMP_NAME,
+        he.POSITION,
+        he.EMAIL
+FROM HR_EMPLOYEES AS he 
+LEFT JOIN  HR_GRADE AS hg
+ON he.EMP_NO = hg.EMP_NO
+GROUP BY he.EMP_NO
+ORDER BY SCORE DESC
+LIMIT 1
+
