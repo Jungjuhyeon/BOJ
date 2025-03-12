@@ -1,22 +1,23 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
+        Set<String> set = new HashSet<>();
         
-        HashMap<String,Integer> map = new HashMap<>();
-        
-        for(String str : phone_book){
-            map.put(str,1);
+        for(String s : phone_book){
+            set.add(s);
         }
         
-        for(String str : phone_book){
-            for(int i=1;i<str.length();i++){
-                String prefix = str.substring(0,i);
-                if(map.containsKey(prefix)) return false;
+        for(String s : set){
+            
+            for(int i=1;i< s.length();i++){
+                String str = s.substring(0,i);
+                if(set.contains(str)){
+                    return false;
+                }
             }
         }
-        
         return true;
     }
 }
