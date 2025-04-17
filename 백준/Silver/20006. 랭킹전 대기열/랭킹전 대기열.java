@@ -47,7 +47,7 @@ public class Main {
                 sb.append("Waiting!").append("\n");
             }
 
-            room.list.sort(Comparator.comparing(h -> h.name));
+            room.list.sort((a,b)-> a.name.compareTo(b.name));
 
             for(Human h : room.list){
                 sb.append(h.leb).append(" ").append(h.name).append("\n");
