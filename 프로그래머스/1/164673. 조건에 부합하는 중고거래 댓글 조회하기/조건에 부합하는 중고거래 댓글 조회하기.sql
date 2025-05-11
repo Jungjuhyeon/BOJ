@@ -1,11 +1,11 @@
--- 코드를 입력하세요
-SELECT ugb.TITLE,
-        ugb.BOARD_ID,
-        ugr.REPLY_ID,
-        ugr.WRITER_ID,
-        ugr.CONTENTS,
-        DATE_FORMAT(ugr.CREATED_DATE,'%Y-%m-%d') AS CREATED_DATE
-FROM USED_GOODS_BOARD AS ugb INNER JOIN USED_GOODS_REPLY AS ugr
-ON ugb.BOARD_ID = ugr.BOARD_ID
-WHERE ugb.CREATED_DATE BETWEEN '2022-10-01' AND '2022-10-31'
-ORDER BY ugr.CREATED_DATE ASC, ugb.TITLE ASC
+SELECT board.TITLE,
+        board.BOARD_ID,
+        reply.REPLY_ID,
+        reply.WRITER_ID,
+        reply.CONTENTS,
+        DATE_FORMAT(reply.CREATED_DATE, '%Y-%m-%d') as CREATED_DATE
+FROM USED_GOODS_BOARD as board 
+INNER JOIN USED_GOODS_REPLY as reply
+ON board.BOARD_ID = reply.BOARD_ID
+WHERE YEAR(board.CREATED_DATE) = 2022 AND MONTH(board.CREATED_DATE) = 10
+ORDER BY reply.CREATED_DATE ASC, board.TITLE
