@@ -1,11 +1,30 @@
--- 코드를 입력하세요
-SELECT DATE_FORMAT(datetime, '%H') hour,
-        COUNT(*) AS count
+SELECT HOUR(DATETIME) AS HOUR,
+        COUNT(*) AS COUNT
 FROM ANIMAL_OUTS
-WHERE DATE_FORMAT(datetime, '%H') BETWEEN 09 AND 19
-GROUP BY
-    1
-ORDER BY
-    1;
+WHERE HOUR(DATETIME) BETWEEN 9 AND 19 
+GROUP BY HOUR(DATETIME)
+ORDER BY 1
+# SELECT *
+# FROM ANIMAL_OUTS
 
 
+
+
+
+
+
+
+
+
+
+
+
+# -- 코드를 입력하세요
+# SELECT DATE_FORMAT(datetime, '%H') hour,
+#         COUNT(*) AS count
+# FROM ANIMAL_OUTS
+# WHERE DATE_FORMAT(datetime, '%H') BETWEEN 09 AND 19
+# GROUP BY
+#     1
+# ORDER BY
+#     1;
