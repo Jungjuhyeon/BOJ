@@ -1,11 +1,7 @@
--- 코드를 입력하세요
 SELECT NAME,
-        COUNT(*) as count
+        COUNT(*) AS COUNT
 FROM ANIMAL_INS
 WHERE NAME IS NOT NULL
 GROUP BY NAME
-HAVING 
-    count >1
+HAVING COUNT(*) >= 2
 ORDER BY NAME
-
-
