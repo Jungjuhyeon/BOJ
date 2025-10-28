@@ -1,27 +1,33 @@
+import java.util.*;
+
 class Solution {
     public int solution(int[] citations) {
+        
+        int n = citations.length;
+        Arrays.sort(citations);
+        
+        int maxNum = citations[n-1];
+                
+        int inyong = 0;
+        int nInyong = n;
+        
         int max =0;
-        int min =0;
-        int answer =0;
         
-        int length = citations.length;
-        
-        for(int i=1;i<=length;i++){
-            for(int j=0;j<length;j++){
-                int n = citations[j];
-                if(n<=i){
-                    min++;
-                }
-                if(n>=i){
-                    max++;
+        for(int h=0 ; h<maxNum;h++){
+            for(int i=0;i<n;i++){
+                if(citations[i] >= h){
+                    inyong = n-i;
+                    nInyong = i;
+                    break;
                 }
             }
-            if(min<=i && max>=i){
-                answer =i;
-            }
-            min = 0;
-            max = 0;
+            if(inyong >=h && nInyong<=h){
+                max = Math.max(max,h);
+             }
         }
-        return answer;
+        
+        return max;
+        
     }
 }
+// 0 1 3 5 6
