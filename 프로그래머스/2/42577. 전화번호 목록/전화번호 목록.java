@@ -1,23 +1,23 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
         Set<String> set = new HashSet<>();
         
-        for(String s : phone_book){
-            set.add(s);
+        for(String str : phone_book)
+        {
+            set.add(str);
         }
         
-        for(String s : set){
-            
-            for(int i=1;i< s.length();i++){
-                String str = s.substring(0,i);
-                if(set.contains(str)){
+        for(int i=0 ; i<phone_book.length ; i++){
+            for(int j=0 ; j<phone_book[i].length(); j++){
+                if(set.contains(phone_book[i].substring(0,j))){
                     return false;
                 }
             }
         }
+        
         return true;
+        
     }
 }
