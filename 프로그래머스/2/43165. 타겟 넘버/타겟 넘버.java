@@ -1,29 +1,26 @@
 import java.util.*;
 
 class Solution {
-    int count =0;
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        int answer = 0;
-        dfs(numbers,0,target,0);
-        answer = count;
+        
+        dfs(numbers,target,0,0);
         
         return answer;
+        
     }
-    public void dfs(int[] numbers,int depth,int target,int result){
-        if(depth==numbers.length){ //마지막 노드까지 진행했을 때
-            if(result == target){ //target값과 합계가 같다면
-                count++;
-            }
+        public static void dfs(int[] numbers, int target, int depth, int total) {
+        if (depth == numbers.length) {
+            if (total == target) answer++;
             return;
         }
-        
-        int plus = result + numbers[depth];//양수를 더한 값
-        int minus = result -numbers[depth]; //음수를 더헀을때
-        
-        dfs(numbers,depth+1,target,plus);
-        dfs(numbers,depth+1,target,minus);        
-    }
 
+        // 현재 숫자 더하는 경우
+        dfs(numbers, target, depth + 1, total + numbers[depth]);
+        // 현재 숫자 빼는 경우
+        dfs(numbers, target, depth + 1, total - numbers[depth]);
+    }
 }
 
-//https://yeoeun-ji.tistory.com/144
+//해당문제는 dfs이지 않을까 싶음.
+//
