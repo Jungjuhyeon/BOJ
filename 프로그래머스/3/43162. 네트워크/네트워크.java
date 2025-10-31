@@ -1,44 +1,29 @@
 import java.util.*;
 
 class Solution {
-    int[] p;
+    static boolean[] v;
     public int solution(int n, int[][] computers) {
-        p = new int[n+1]; //1~n부모
+        v = new boolean[n];
         
-        for(int i=1;i<n+1;i++){
-                p[i] = i;
-        }        
+        int answer =0;
         
-        for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-                if(computers[i][j] ==1){
-                    union(i+1,j+1);
-                }
-            }
-        }
-       
-        
-        // 네트워크 개수 세기
-        int answer = 0;
-        for(int i = 1; i <= n; i++) {
-            if(find(i) == i) {
+        for(int i=0;i<n;i++){
+            if(!v[i]){
                 answer++;
+                dfs(i,n,computers);
             }
         }
-
         return answer;
-      
     }
     
-    public void union(int i,int j){
-        int aRoot = find(i);
-        int bRoot = find(j);
-       
-        p[bRoot] = aRoot;
-    }
-    
-    public int find(int i){
-        if(p[i]==i) return p[i];
-        return p[i] = find(p[i]);
+    public static void dfs(int i,int n,int[][] computers){
+        v[i] = true;
+        
+        for(int j=0;j<n;j++){
+            if(computers[i][j] == 1 && !v[j]){
+                dfs(j,n,computers);
+            }
+        }
+        
     }
 }
