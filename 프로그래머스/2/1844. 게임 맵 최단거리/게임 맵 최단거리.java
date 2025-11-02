@@ -1,47 +1,47 @@
 import java.util.*;
 
 class Solution {
-    boolean[][] v;
-    final int[] di = {-1,0,1,0};
-    final int[] dj = {0,1,0,-1};
-    int length;
+    static int[] di = {-1,0,1,0};
+    static int[] dj = {0,1,0,-1};
+    static boolean[][] v;
+    static int n,m;
+    static int[][] dist;
     
     public int solution(int[][] maps) {
-        length = maps.length;
-        v = new boolean[length][maps[0].length];
-       
-        return bfs(0,0,maps);
-       
-
-    }
-    public int bfs(int i,int j, int[][] maps){
-        ArrayDeque<int[]> q = new ArrayDeque<>();
         
-        q.offer(new int[]{i,j,1});
+        n = maps.length;
+        m = maps[0].length;
+        v = new boolean[n][m];
+        dist = new int[n][m];
+        
+        bfs(0,0,maps);
+        
+        
+        return dist[n-1][m-1] == 0 ? -1:dist[n-1][m-1];
+    }
+    
+    public static void bfs(int i,int j, int[][] maps){
+        ArrayDeque<int[]> q = new ArrayDeque<>();
         v[i][j] = true;
+        q.offer(new int[]{i,j});
+        dist[i][j] = 1;
+        
         while(!q.isEmpty()){
             int[] ij = q.poll();
-            i = ij[0];
-            j = ij[1];
-            int depth = ij[2];
-            
-            // 목적지 도달 시 깊이 반환
-            if (i == length - 1 && j == maps[0].length - 1) {
-                return depth;
-            }
+            int i1 = ij[0];
+            int i2 = ij[1];
             
             for(int d=0;d<4;d++){
-                int ni = i+di[d];
-                int nj = j+dj[d];
-                if(ni>=0 && nj >=0 && ni<length && nj<maps[0].length && !v[ni][nj]){
-                    if(maps[ni][nj] ==1){
-                        v[ni][nj] = true;
-                        q.offer(new int[]{ni,nj,depth+1});
-                    }
+                int ni = i1+ di[d];
+                int nj = i2+ dj[d];
+                if(ni>=0 && ni<n && nj>=0 && nj<m && !v[ni][nj] && maps[ni][nj] ==1){
+                    q.offer(new int[]{ni,nj});
+                    v[ni][nj] = true;   
+                    dist[ni][nj] = dist[i1][i2] + 1;
                 }
             }
-        }
 
-        return -1;
+        }
+        
     }
 }
