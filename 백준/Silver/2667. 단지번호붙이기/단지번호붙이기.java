@@ -1,61 +1,79 @@
+
 import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int N,C;
-    static int[][] ia;
+    static int N;
+    static int[][] a;
+    static int[] dj = {-1,0,1,0};
+    static int[] di = {0,1,0,-1};
     static boolean[][] v;
-    static final int[] di = {-1,0,1,0};//y축 상우하좌
-    static final int[] dj = {0,1,0,-1};
+    public static void main(String[] args)throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-    static int dfs(int i,int j){
-        v[i][j] =true;
-        C=1;
-        for(int d=0;d<4;d++){
-            int ni = i+di[d];
-            int nj = j+dj[d];
-            if(ni>=0 && ni<N&&nj>=0 && nj<N){
-                if(ia[ni][nj]==1 && !v[ni][nj]){
-                    C += dfs(ni,nj);
+        N = Integer.parseInt(br.readLine());
+
+        a = new int[N][N];
+        v = new boolean[N][N];
+        List<Integer> lists = new ArrayList<>();
+
+        for(int i=0;i<N;i++){
+            String str = br.readLine();
+            for(int j=0;j<N;j++){
+                int num = str.charAt(j)-'0';
+                a[i][j] = num;
+            }
+        }
+
+
+        for(int i=0;i<N;i++){
+            for(int j=0;j<N;j++){
+                if(a[i][j] == 1){
+                    if(!v[i][j]){
+                        int count = bfs(i,j);
+                        lists.add(count);
+                    }
+
                 }
             }
         }
-        return C;
+        Collections.sort(lists);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(lists.size()).append("\n");
+        for(int i=0;i<lists.size();i++){
+            sb.append(lists.get(i)).append("\n");
+        }
+
+        System.out.println(sb);
 
     }
 
-    public static void main(String[] args)throws Exception{
+    static int bfs(int i,int j){
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{i,j});
+        v[i][j] =true;
+        int count =1;
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb =new StringBuilder();
+        while(!q.isEmpty()) {
+            int[] ij = q.poll();
+            int curI = ij[0];
+            int curJ = ij[1];
 
-        N = Integer.parseInt(br.readLine());
-        ia = new int[N][N];
-        v = new boolean[N][N];
-
-        for(int i=0; i<N;i++){
-            String str = br.readLine();
-            for(int j=0;j<N;j++){
-                ia[i][j] = str.charAt(j)-'0';
-            }
-        }
-
-        List<Integer> sort_num = new ArrayList<>();
-
-        for(int i=0;i<N;i++) {
-            for (int j = 0; j < N; j++) {
-                if(!v[i][j]&& ia[i][j]==1){
-                    C =dfs(i,j);
-                    sort_num.add(C);
+            for (int d = 0; d < 4; d++) {
+                int ni = curI+di[d];
+                int nj = curJ+dj[d];
+                if(ni>=0 && ni<N && nj >=0 && nj<N && !v[ni][nj]){
+                    if(a[ni][nj] == 1){
+                        q.offer(new int[]{ni,nj});
+                        v[ni][nj]= true;
+                        count++;
+                    }
                 }
             }
-        }
-        Collections.sort(sort_num);
-        sb.append(sort_num.size()).append("\n");
-        for(int size:sort_num){
-            sb.append(size).append("\n");
-        }
-        System.out.println(sb);
 
+        }
+        return count;
     }
 }
