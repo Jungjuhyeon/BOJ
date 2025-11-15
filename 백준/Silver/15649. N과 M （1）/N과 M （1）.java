@@ -1,57 +1,41 @@
 
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static StringBuilder sb;
-    static int N,M;
-    static int[] a,b;
+    static int N, M;
     static boolean[] v;
+    static int[] a;
+    static StringBuilder sb = new StringBuilder();
 
-    static void perm(int cnt){
-        if(cnt == M){
+    public static void main(String[] arts) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        v = new boolean[N+1];
+        a = new int[N];
+
+        dfs(0);
+        System.out.println(sb);
+    }
+
+    public static void dfs(int cnt) {
+        if (cnt == M) {
             for(int i=0;i<M;i++){
-                sb.append(b[i]).append(" ");
+                sb.append(a[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
-        for(int i=0;i<N;i++){
+        for (int i = 1; i <= N; i++) {
             if(v[i])continue;
             v[i] = true;
-            b[cnt] = a[i];
-            perm(cnt+1);
+            a[cnt] = i;
+            dfs(cnt+1);
             v[i] =false;
         }
     }
-
-
-    public static void main(String[] args)throws Exception{
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        sb =new StringBuilder();
-
-        st =new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        a = new int[N];
-
-        b = new int[M];
-
-        v = new boolean[N];
-
-        for(int i=0;i<N;i++){
-            a[i] =i+1;
-        }
-
-        perm(0);
-
-        System.out.print(sb);
-
-
-    }
-
 }
-
