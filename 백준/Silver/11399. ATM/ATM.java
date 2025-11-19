@@ -1,36 +1,27 @@
-import java.io.*;
+
+
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st;
 
         int N = Integer.parseInt(br.readLine());
-
-        int[] ia = new int[N];
-
-        st = new StringTokenizer(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            ia[i] = Integer.parseInt(st.nextToken());
+        int[] a =new int[N];
+        st = new StringTokenizer(br.readLine()," ");
+        for(int i=0;i<N;i++){
+            a[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(ia);
+        Arrays.sort(a);
 
-        int sum = 0;
-        int j =N;
-
-        for (int i = 0; i < N; i++) {
-            sum = sum+(ia[i] * j);
-            //System.out.println(sum);
-            --j;
-
+        int sum =0;
+        for(int num : a){
+            sum += num*N;
+            N--;
         }
-
         System.out.println(sum);
-
     }
 }
-
