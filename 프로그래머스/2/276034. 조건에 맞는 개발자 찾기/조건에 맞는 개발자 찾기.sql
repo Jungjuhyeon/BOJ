@@ -1,13 +1,38 @@
-SELECT DISTINCT
-        ID,
-        EMAIL,
-        FIRST_NAME,
-        LAST_NAME
+# SELECT *
+# FROM DEVELOPERS
+
+
+
+SELECT d.ID,
+       d.EMAIL,
+       d.FIRST_NAME,
+       d.LAST_NAME
 FROM DEVELOPERS as d
-JOIN SKILLCODES as s
-ON d.SKILL_CODE & s.CODE = s.Code
-WHERE s.NAME = 'Python' OR s.NAME = 'C#'
-ORDER BY ID ASC
+WHERE d.SKILL_CODE & 256 != 0 OR d.SKILL_CODE & 1024 != 0
+ORDER BY ID
+        
+
+
+
+
+
+
+
+
+
+
+
+
+# SELECT DISTINCT
+#         ID,
+#         EMAIL,
+#         FIRST_NAME,
+#         LAST_NAME
+# FROM DEVELOPERS as d
+# JOIN SKILLCODES as s
+# ON d.SKILL_CODE & s.CODE = s.Code
+# WHERE s.NAME = 'Python' OR s.NAME = 'C#'
+# ORDER BY ID ASC
 
 
 
