@@ -1,16 +1,40 @@
-SELECT p.ID AS ID,
-        COUNT(c.ID) AS CHILD_COUNT
-FROM ECOLI_DATA as p
-LEFT JOIN ECOLI_DATA as c
-ON p.ID = c.PARENT_ID
-GROUP BY p.ID
-ORDER BY p.ID
+SELECT a.ID,
+       IFNULL(sub.c,0) as CHILD_COUNT
+FROM ECOLI_DATA as a
+LEFT JOIN (
+  SELECT PARENT_ID,
+          COUNT(*) as c
+  FROM ECOLI_DATA
+  WHERE PARENT_ID IS NOT NULL
+  GROUP BY PARENT_ID
+) as sub
+ON a.ID = sub.PARENT_ID
+ORDER BY 1 
+# SELECT PARENT_ID,
+#         COUNT(*)
+# FROM ECOLI_DATA
+# WHERE PARENT_ID IS NOT NULL
+# GROUP BY PARENT_ID
 
 
-# SELECT child.ID AS ID,
-#         count(parent.parent_id) as child_count
-# FROM ECOLI_DATA AS child 
-# LEFT JOIN ECOLI_DATA AS parent 
-# ON child.ID = parent.PARENT_ID
-# group by 1
-# order by 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SELECT p.ID AS ID,
+#         COUNT(c.ID) AS CHILD_COUNT
+# FROM ECOLI_DATA as p
+# LEFT JOIN ECOLI_DATA as c
+# ON p.ID = c.PARENT_ID
+# GROUP BY p.ID
+# ORDER BY p.ID
+
