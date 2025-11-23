@@ -1,11 +1,34 @@
-SELECT ced.ID,
-        ced.GENOTYPE,
-        ped.GENOTYPE AS PARENT_GENOTYPE
-FROM ECOLI_DATA as ped
-JOIN ECOLI_DATA as ced
-ON ped.ID = ced.PARENT_ID
-WHERE ped.GENOTYPE & ced.GENOTYPE = ped.GENOTYPE
-ORDER BY ced.ID ASC
+SELECT b.ID,
+       b.GENOTYPE,
+       a.GENOTYPE as PARENT_GENOTYPE
+FROM ECOLI_DATA as a
+JOIN ECOLI_DATA as b
+  ON a.ID = b.PARENT_ID
+WHERE a.GENOTYPE & b.GENOTYPE >= a.GENOTYPE
+ORDER BY ID
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SELECT ced.ID,
+#         ced.GENOTYPE,
+#         ped.GENOTYPE AS PARENT_GENOTYPE
+# FROM ECOLI_DATA as ped
+# JOIN ECOLI_DATA as ced
+# ON ped.ID = ced.PARENT_ID
+# WHERE ped.GENOTYPE & ced.GENOTYPE = ped.GENOTYPE
+# ORDER BY ced.ID ASC
 
 
 
