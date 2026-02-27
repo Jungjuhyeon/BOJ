@@ -2,31 +2,28 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] citations) {
-        
-        int n = citations.length;
         Arrays.sort(citations);
         
-        int maxNum = citations[n-1];
-                
-        int inyong = 0;
-        int nInyong = n;
+        int len = citations.length;
+        int answer = 0;
         
-        int max =0;
-        
-        for(int h=0 ; h<maxNum;h++){
-            for(int i=0;i<n;i++){
-                if(citations[i] >= h){
-                    inyong = n-i;
-                    nInyong = i;
+        for(int h=0; h<=citations[len-1];h++){
+            int up =0;
+            int down =0;
+            for(int j=0;j<len;j++){
+                if(citations[j]>=h){
+                    up = len-down;
                     break;
+                }else{
+                    down++;
                 }
             }
-            if(inyong >=h && nInyong<=h){
-                max = Math.max(max,h);
-             }
+            if(up>=h && down<=h){
+                answer = Math.max(answer,h);
+            }
         }
+        return answer;
         
-        return max;
         
     }
 }
