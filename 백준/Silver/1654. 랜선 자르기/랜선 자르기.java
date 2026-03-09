@@ -1,5 +1,6 @@
-import java.io.*;
+
 import java.util.*;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args)throws Exception{
@@ -7,41 +8,38 @@ public class Main {
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine()," ");
-
-        int K = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        int[] a = new int[K];
-
-        long right = 0;
-
-        for(int i=0;i<K;i++){
-            a[i] = Integer.parseInt(br.readLine());
-            if(right<a[i]){
-                right = a[i];
-            }
+        int[] a = new int[N];
+        long max = 0;
+        for(int i=0;i<N;i++){
+            int num = Integer.parseInt(br.readLine());
+            a[i] = num;
+            max = Math.max(max,num);
         }
+
+        long left = 1;
+        long right = max;
         right++;
-        long left = 0;
-        long count;
 
-        while(left<right){
-            long mid = (left+right)/2;
-            count =0;
+        while(left < right){
+            long mid = left + (right - left) / 2;
+            long sum = 0;
 
-            for(int i=0;i< a.length;i++){
-                count +=(a[i]/mid);
+            for(int num : a){
+                sum += num / mid;
             }
 
-            if(count >= N){
-                left = mid+1;
+            if(sum >= M){
+                left = mid + 1;
             }else{
                 right = mid;
             }
-
         }
 
-        System.out.println(left-1);
+        System.out.println(left - 1);
 
     }
 }
+
