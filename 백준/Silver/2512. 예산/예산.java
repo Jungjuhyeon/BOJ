@@ -1,58 +1,46 @@
 
 import java.io.*;
 import java.util.*;
+
 public class Main {
-    static int N;
-    static int[] a;
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        N = Integer.parseInt(br.readLine());
-        a = new int[N];
-
+        int N = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine()," ");
+        int[] a = new int[N];
 
-        int high = 0;
-        int total = 0;
-
+        int max = 0;
         for(int i=0;i<N;i++){
             a[i] = Integer.parseInt(st.nextToken());
-            high = Math.max(high,a[i]);
-            total = total+a[i];
+            max = Math.max(max,a[i]);
         }
 
-        int max = Integer.parseInt(br.readLine()); //총예산
+        int M = Integer.parseInt(br.readLine());
 
-        if(total<=max){
-            System.out.println(high);
-            return;
-        }
+        int left = 0;
+        int right = max+1;
 
-        int low = 1;
+        while(left<right){
+            int mid = left+ (right-left)/2;
 
-        while(low < high-1){
-            int mid = (low+high)/2;
-
-            if(f(mid)>max){
-                high = mid;
-            }else{
-                low =mid;
+            int sum=0;
+            for(int num:a){
+                if(num>=mid){
+                    sum+= mid;
+                }else{
+                    sum+=num;
+                }
             }
 
+            if(sum <= M){
+                left = mid+1;
+            }else{
+                right = mid;
+            }
         }
 
-        br.close();
-        System.out.println(low);
-
-
-    }
-
-    static int f(int h){
-        int total =0;
-        for(int i=0;i<N;i++){
-            total += Math.min(h,a[i]);
-        }
-        return total;
+        System.out.println(left-1);
     }
 }
