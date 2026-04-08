@@ -26,14 +26,14 @@ class Solution {
     // 이분 탐색
     private static int binarySearch(String key, int score) {
         List<Integer> list = map.get(key);
-        int start = 0, end = list.size() - 1;
+        int start = 0, end = list.size();
  
-        while (start <= end) {
-            int mid = (start + end) / 2;
-            if (list.get(mid) < score)
-                start = mid + 1;
+        while (start < end) {
+            int mid = start + (end-start)/ 2;
+            if (list.get(mid) >= score)
+                end = mid;
             else
-                end = mid - 1;
+                start = mid + 1;
         }
  
         return list.size() - start;
