@@ -1,26 +1,38 @@
 import java.util.*;
 
 class Solution {
-    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        
-        dfs(numbers,target,0,0);
-        
+        int len = numbers.length;
+        int answer = bfs(numbers,target,len);
         return answer;
-        
     }
-        public static void dfs(int[] numbers, int target, int depth, int total) {
-        if (depth == numbers.length) {
-            if (total == target) answer++;
-            return;
-        }
+    
+    private int bfs(int[] numbers,int target,int len){
+        ArrayDeque<int[]> q = new ArrayDeque<>();
 
-        // 현재 숫자 더하는 경우
-        dfs(numbers, target, depth + 1, total + numbers[depth]);
-        // 현재 숫자 빼는 경우
-        dfs(numbers, target, depth + 1, total - numbers[depth]);
+        q.offer(new int[]{numbers[0], 0});
+        q.offer(new int[]{-numbers[0], 0});
+
+        int count = 0;
+        
+        while(!q.isEmpty()){
+            int[] ij = q.poll();
+            int curNum = ij[0];
+            int id = ij[1];
+            
+            // 마지막 숫자까지 사용한 경우
+            if (id == len - 1) {
+                if (curNum == target) {
+                    count++;
+                }
+                continue;
+            }
+            
+            
+            q.offer(new int[]{curNum+(-1*numbers[id+1]),id+1});
+            q.offer(new int[]{curNum+numbers[id+1],id+1});
+            
+        }
+        return count; 
     }
 }
-
-//해당문제는 dfs이지 않을까 싶음.
-//
