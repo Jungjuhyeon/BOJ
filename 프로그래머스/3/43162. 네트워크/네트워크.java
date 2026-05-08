@@ -1,45 +1,50 @@
 import java.util.*;
 
 class Solution {
-    static int[] parent;
     public int solution(int n, int[][] computers) {
+        List<Integer>[] list = new ArrayList[n];
         
-        parent = new int[n];
-        
-        //부모 초기화
         for(int i=0;i<n;i++){
-            parent[i] = i;
+            list[i] = new ArrayList<>();
         }
         
-        for(int i=0 ; i<n;i++){
-            for(int j=0;j<n;j++)
-                {
-                if(i != j && computers[i][j] ==1){
-                    union(i,j);
-                    }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(i == j) continue;
+                if(computers[i][j]==1){
+                    list[i].add(j);
                 }
             }
-        
-        Set<Integer> set = new HashSet<>();
-        
-        for(int i : parent){
-            set.add(find(i)); // ← 핵심 수정
         }
-        return set.size();
+        
+        boolean[] v = new boolean[n];
+        int answer =0;
+        for(int i=0;i<n;i++){
+            if(!v[i]){
+                bfs(list,v,i);
+                answer++;
+            }
+        }
+        return answer;
+        
         
     }
     
-    public static void union(int a,int b){
-        int aRoot = find(a);
-        int bRoot = find(b);
-        if(aRoot != bRoot){
-            parent[bRoot] = aRoot;
+    private void bfs(List<Integer>[] list, boolean[] v,int start){
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        q.offer(start);
+        v[start]=true;
+        
+        while(!q.isEmpty()){
+            int curNum = q.poll();
+            for(int nextNum : list[curNum]){
+                if(!v[nextNum]){
+                v[nextNum] = true;
+                q.offer(nextNum);
+                }
+            }
         }
+    
     }
-    public static int find(int i){
-        if(parent[i] == i )return i;
-        else{
-            return parent[i] = find(parent[i]);
-        }
-    }
+    
 }
