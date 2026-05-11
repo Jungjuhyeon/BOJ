@@ -1,61 +1,91 @@
 import java.util.*;
 
 class Solution {
-    int[] dx = new int[]{1, 0, -1, 0};
-    int[] dy = new int[]{0, 1, 0, -1};
+    
+    int[][] map = new int[102][102];
+    boolean[][] v = new boolean[102][102];
+    int[] di = {-1,0,1,0};
+    int[] dj = {0,1,0,-1};
     public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
-
-        int[][] map = new int[101][101];
-        characterX *= 2;
-        characterY *= 2;
-        itemX *= 2;
-        itemY *= 2;
-
-        for(int[] r: rectangle){
-
-            r[0] *= 2;
-            r[1] *= 2;
-            r[2] *= 2;
-            r[3] *= 2;
-
-            for(int x = r[0]; x <= r[2]; x++){
-                for(int y = r[1]; y <= r[3]; y++){
-                    //라인일때
-                    if(x == r[0] || x == r[2] || y == r[1] || y == r[3]) {
-                        if(map[x][y] == -1) continue;
-                        map[x][y] = 1;
-                    }
-                    else map[x][y] = -1; //내부 표시
+        
+        for(int[] r : rectangle){
+            int x1 = r[0]*2;
+            int y1 = r[1]*2;
+            int x2 = r[2]*2;
+            int y2 = r[3]*2;
+            
+            for(int x= x1;x<=x2;x++){
+                for(int y= y1; y<=y2;y++){
+                    map[x][y] = 1;
                 }
             }
         }
-
-        Queue<int[]> queue = new ArrayDeque<>();
-        boolean[][] visited = new boolean[101][101];
-
-        queue.add(new int[]{characterX, characterY, 0}); //좌표 이동거리
-        visited[characterX][characterY] = true;
-
-        while(!queue.isEmpty()){
-
-            int[] cur = queue.poll();
-            if(cur[0] == itemX && cur[1] == itemY) return cur[2] / 2;
-
-            for(int dir = 0; dir < 4; dir++){
-
-                int nx = cur[0] + dx[dir];
-                int ny = cur[1] + dy[dir];
-
-                if(nx < 0 || ny < 0 || nx >= 101 || ny >= 101) continue;
-                if(visited[nx][ny] || map[nx][ny] != 1) continue;
-                queue.add(new int[]{nx, ny, cur[2] + 1});
-                visited[nx][ny] = true;
+        
+        for(int[] r : rectangle){
+            int x1 = r[0]*2;
+            int y1 = r[1]*2;
+            int x2 = r[2]*2;
+            int y2 = r[3]*2;
+            
+            for(int x= x1+1;x<x2;x++){
+                for(int y= y1+1; y<y2;y++){
+                    map[x][y] = 0;
+                }
             }
         }
-        return -1;
+        
+        return bfs(characterX * 2,
+                   characterY * 2,
+                   itemX * 2,
+                   itemY * 2);        
+    }
+    private int bfs(int characterX, int characterY, int itemX, int itemY){
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{characterX,characterY,0});
+        
+        v[characterX][characterY] = true;
+        
+        while(!q.isEmpty()){
+            int[] ij = q.poll();
+            int curX = ij[0];
+            int curY = ij[1];
+            int dist = ij[2];
+            
+            if(curX ==itemX && curY == itemY){
+                return dist/2;
+            }
+            
+            for(int d=0;d<4;d++){
+                int nextX = curX + dj[d];
+                int nextY = curY + di[d];
+                
+                // 범위 체크
+                if(nextX < 0 || nextY < 0 ||
+                   nextX >= 102 || nextY >= 102){
+                    continue;
+                }
+
+                // 방문 체크
+                if(v[nextX][nextY]){
+                    continue;
+                }
+
+                // 길(테두리)인지 확인
+                if(map[nextX][nextY] != 1){
+                    continue;
+                }
+
+                v[nextX][nextY] = true;
+
+                q.offer(new int[]{
+                        nextX,
+                        nextY,
+                        dist + 1
+                });
+            }
+            
+        }
+      return 0;
+
     }
 }
-
-
-
-//https://siino.tistory.com/23
