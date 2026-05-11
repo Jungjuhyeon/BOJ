@@ -1,45 +1,66 @@
 import java.util.*;
 
-
-class Node{
-    String word;
-    int count;
-    Node(String word, int count){
-        this.word = word;
-        this.count = count;
-    }
-    
-}
 class Solution {
-    static boolean[] v;
     public int solution(String begin, String target, String[] words) {
-        v = new boolean[words.length];
-        return bfs(begin,target,words);
+        HashSet<String> set = new HashSet<>();
+        
+        for(String s : words){
+            set.add(s);
+        }
+        
+        if(!set.contains(target)){
+            return 0;
+        }
+        return bfs(begin,target,set);
+        
     }
-    
-    public int bfs(String begin, String target, String[] words){
-        ArrayDeque<Node> q = new ArrayDeque<>();
-        q.offer(new Node(begin,0));
-                
+    public int bfs(String begin, String target, HashSet<String> set){
+        ArrayDeque<Name> q = new ArrayDeque<>();
+        Set<String> v = new HashSet<>();
+        q.offer(new Name(begin,0));
+        v.add(begin);
+        
         while(!q.isEmpty()){
-            Node cur = q.poll();
+            Name cur = q.poll();
             
-            if(cur.word.equals(target))return cur.count;
+            String curS = cur.s;
+            int curSize = cur.size;
             
-            for(int i=0; i<words.length; i++){
-                int match =0;
-                for(int j=0; j<begin.length() ; j++){
-                    if(cur.word.charAt(j) == words[i].charAt(j)) match++;
+            if(curS.equals(target)){
+                return curSize;
+            }
+            
+            for(String str : set){
+                int count =0;
+                if(v.contains(str)) continue;
+                for(int i=0;i<curS.length();i++){
+                    
+                    if(curS.charAt(i) != str.charAt(i)){
+                        count++;
+                    }
                 }
-                
-                if(!v[i] && match == begin.length()-1){
-                    q.add(new Node(words[i],cur.count+1));
-                    v[i] =true;
+                if(count ==1) {
+                    q.offer(new Name(str,curSize+1));
+                    v.add(str);
                 }
             }
         }
-                return 0;
-        
-    }
+        return 0;
+    }  
 }
-                
+    
+
+
+class Name{
+        String s;
+        int size;
+        public Name(String s, int size){
+            this.s = s;
+            this.size =size;
+        }
+}
+
+//set으로 words 중복제거
+//BFS로 1개만 다른거 뽑아서 넣고 방문처리
+//넣을떄 depth 같이 넣기.
+//Target찾으면 리턴
