@@ -1,22 +1,19 @@
 import java.util.*;
-import java.io.*;
 
 class Solution {
     public int solution(int[] nums) {
-        int answer = 0;
-        int pickNum = nums.length /2;
+        Set<Integer> set = new HashSet<>();
         
-        HashSet<Integer> hash = new HashSet<>();
-        
-        for(int i : nums){
-            hash.add(i);
+        for(int i:nums){
+            set.add(i);
         }
         
-        if(hash.size() >= pickNum){
-            answer = pickNum;
+        int len = nums.length/2;
+        
+        if(set.size()>=len){
+            return len;
         }else{
-            answer = hash.size();
+            return set.size();
         }
-        return answer;
     }
 }
