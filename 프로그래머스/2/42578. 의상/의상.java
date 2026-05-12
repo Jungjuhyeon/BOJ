@@ -4,26 +4,15 @@ class Solution {
     public int solution(String[][] clothes) {
         Map<String,Integer> map = new HashMap<>();
         
-        for(String[] str : clothes){
-            map.put(str[1],map.getOrDefault(str[1],0)+1);
+        for(String[] cl : clothes){
+            map.put(cl[1],map.getOrDefault(cl[1],1)+1);
+        }
+        Integer sum =1;
+        
+        for(String key: map.keySet()){
+            sum *= map.get(key);
         }
         
-        int cnt = 1;
-        
-     
-        for(Integer count : map.values()){
-            cnt = cnt *(count+1);
-        }
-        cnt -=1;
-        
-        
-        return cnt;
-        
-        
-        
+        return sum-1;
     }
 }
-
-    
-
-    
